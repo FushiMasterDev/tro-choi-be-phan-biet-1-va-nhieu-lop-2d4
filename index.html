@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bé Phân Biệt 1 Và Nhiều</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="card">
+  <section id="start">
+    <div class="fruit" aria-hidden="true" style="font-size:44px;margin-bottom:8px;white-space:nowrap">🍊 &nbsp;&nbsp; 🍊🍊🍊</div>
+    <h1><span>Bé</span> <span>Phân</span> <span>Biệt</span> <span>1 Và Nhiều</span></h1>
+    <p>10 câu hỏi — nghe cô hỏi rồi chọn đúng 1 hay nhiều quả nhé</p>
+    <button class="btn" id="startBtn">Bắt đầu</button>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="top">
+      <span id="count">Câu 1/10</span>
+      <button class="replay" id="replayBtn" aria-label="Nghe lại câu hỏi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+        Nghe lại
+      </button>
+      <span id="points">⭐ 0</span>
+    </div>
+    <div class="bar" aria-hidden="true"><div id="progress"></div></div>
+    <div class="question" id="qText"></div>
+    <div class="fruit" id="show" aria-hidden="true" hidden></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+  </section>
+
+  <section id="result" hidden>
+    <h1><span>Giỏi</span> <span>quá</span><span>!</span></h1>
+    <div class="score" id="finalScore"></div>
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p id="resultMsg"></p>
+    <button class="btn" id="againBtn">Chơi lại</button>
+  </section>
+</main>
+
+<script>
+// shortcut: pictures are emoji (look differs slightly per device); swap for SVG/PNG if exact art matters.
+const FRUITS = { "Cam": "🍊", "Chuối": "🍌", "Táo": "🍎", "Lê": "🍐", "Xoài": "🥭", "Dứa": "🍍", "Chanh": "🍋", "Dâu tây": "🍓", "Đào": "🍑", "Dưa hấu": "🍉" };
+// "1 Cam" -> one orange, "Nhiều Cam" -> five oranges
+const ITEMS = {};
+for (const [k, e] of Object.entries(FRUITS)) {
+  ITEMS[`1 ${k}`] = [e, `1 quả ${k.toLowerCase()}`];
+  ITEMS[`Nhiều ${k}`] = [`<span class="many">${e.repeat(5)}</span>`, `nhiều quả ${k.toLowerCase()}`];
+}
+
+window.GAME = {
+  known: ITEMS, audioDir: "audio", readOptions: false, pics: true,
+  option(b, name) { b.innerHTML = ITEMS[name][0]; b.setAttribute("aria-label", ITEMS[name][1]); },
+  wrongText: q => `Chưa đúng rồi, đây mới là ${ITEMS[q.answer][1]} nè!`,
+  questions: [
+    { answer: "1 Cam", q: "Đâu là 1 quả cam?", options: ["1 Cam", "Nhiều Cam", "1 Táo"] },
+    { answer: "Nhiều Chuối", q: "Đâu là nhiều quả chuối?", options: ["1 Chuối", "Nhiều Lê", "Nhiều Chuối"] },
+    { answer: "1 Táo", q: "Đâu là 1 quả táo?", options: ["Nhiều Táo", "1 Táo", "1 Xoài"] },
+    { answer: "Nhiều Lê", q: "Đâu là nhiều quả lê?", options: ["Nhiều Lê", "1 Lê", "Nhiều Cam"] },
+    { answer: "1 Xoài", q: "Đâu là 1 quả xoài?", options: ["1 Dứa", "Nhiều Xoài", "1 Xoài"] },
+    { answer: "Nhiều Dứa", q: "Đâu là nhiều quả dứa?", options: ["1 Dứa", "Nhiều Dứa", "Nhiều Chanh"] },
+    { answer: "1 Chanh", q: "Đâu là 1 quả chanh?", options: ["1 Chanh", "1 Đào", "Nhiều Chanh"] },
+    { answer: "Nhiều Dâu tây", q: "Đâu là nhiều quả dâu tây?", options: ["Nhiều Táo", "1 Dâu tây", "Nhiều Dâu tây"] },
+    { answer: "1 Đào", q: "Đâu là 1 quả đào?", options: ["Nhiều Đào", "1 Đào", "1 Cam"] },
+    { answer: "Nhiều Dưa hấu", q: "Đâu là nhiều quả dưa hấu?", options: ["Nhiều Dưa hấu", "1 Dưa hấu", "Nhiều Chuối"] },
+  ],
+};
+</script>
+<script src="quiz.js"></script>
+</body>
+</html>
